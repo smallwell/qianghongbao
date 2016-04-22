@@ -63,6 +63,7 @@ public class MainActivity extends BaseSettingsActivity {
         filter.addAction(Config.ACTION_QIANGHONGBAO_SERVICE_DISCONNECT);
         filter.addAction(Config.ACTION_NOTIFY_LISTENER_SERVICE_DISCONNECT);
         filter.addAction(Config.ACTION_NOTIFY_LISTENER_SERVICE_CONNECT);
+        
         registerReceiver(qhbConnectReceiver, filter);
     }
 
@@ -73,6 +74,7 @@ public class MainActivity extends BaseSettingsActivity {
 
     @Override
     public Fragment getSettingsFragment() {
+
         mMainFragment = new MainFragment();
         return mMainFragment;
     }
@@ -266,6 +268,7 @@ public class MainActivity extends BaseSettingsActivity {
                 openAccessibilityServiceSettings();
             }
         });
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.open_service_title);
         builder.setView(view);

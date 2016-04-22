@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class QiangHongBaoService extends AccessibilityService {
 
-    private static final String TAG = "QiangHongBao";
+    private static final String TAG = "wyy";
 
     private static final Class[] ACCESSBILITY_JOBS= {
             WechatAccessbilityJob.class,
@@ -51,6 +51,7 @@ public class QiangHongBaoService extends AccessibilityService {
                 Object object = clazz.newInstance();
                 if(object instanceof AccessbilityJob) {
                     AccessbilityJob job = (AccessbilityJob) object;
+
                     job.onCreateJob(this);
                     mAccessbilityJobs.add(job);
                     mPkgAccessbilityJobMap.put(job.getTargetPackageName(), job);
@@ -65,9 +66,11 @@ public class QiangHongBaoService extends AccessibilityService {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "qianghongbao service destory");
+
         if(mPkgAccessbilityJobMap != null) {
             mPkgAccessbilityJobMap.clear();
         }
+
         if(mAccessbilityJobs != null && !mAccessbilityJobs.isEmpty()) {
             for (AccessbilityJob job : mAccessbilityJobs) {
                 job.onStopJob();
@@ -86,7 +89,6 @@ public class QiangHongBaoService extends AccessibilityService {
     @Override
     public void onInterrupt() {
         Log.d(TAG, "qianghongbao service interrupt");
-        Toast.makeText(this, "中断抢红包服务", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -97,12 +99,18 @@ public class QiangHongBaoService extends AccessibilityService {
         Intent intent = new Intent(Config.ACTION_QIANGHONGBAO_SERVICE_CONNECT);
         sendBroadcast(intent);
         Toast.makeText(this, "已连接抢红包服务", Toast.LENGTH_SHORT).show();
+
+        Log.d("wyy","onServiceConnected");
     }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if(BuildConfig.DEBUG) {
-            Log.d(TAG, "事件--->" + event );
+
+
+
+            Log.d(TAG, "事件--->" + event.getPackageName() +" "+event.getClassName());
+            Log.d(TAG, "事件--->" + event);
         }
         String pkn = String.valueOf(event.getPackageName());
         if(mAccessbilityJobs != null && !mAccessbilityJobs.isEmpty()) {
@@ -179,6 +187,7 @@ public class QiangHongBaoService extends AccessibilityService {
         } catch (Throwable t) {}
         return false;
     }
+
 
 
 }
